@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+</head>
+<body>
+  <form id="signupForm">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" max="8" name="password" placeholder="Password">
+    <button type="submit">Signup</button>
+  </form>
+
+  <script>
+   const form= document.getElementById('signupForm')
+   
+   form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      const formData = {
+        username: form.username.value,
+        password: form.password.value 
+      }; // Get form data
+
+      console.log(JSON.stringify(formData));
+      
+
+      // Send POST request to backend
+      fetch('http://localhost:3003/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+       console.log(data);
+        console.log(data.message); // You can log the data or perform further actions based on the response
+
+        // Example: Display a success message or redirect to a new page
+        if (data.message === 'Signup successful') {
+          alert('Signup successful');
+          window.location.href = 'login.html';
+        } else {
+          alert('Signup failed');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    });
+  </script>
+</body>
+</html>

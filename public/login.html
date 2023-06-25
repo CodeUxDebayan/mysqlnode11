@@ -1,0 +1,48 @@
+<!-- index.html -->
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <form id="loginForm">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
+  
+    <script>
+      const form = document.getElementById('loginForm')
+      form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+  
+      
+  
+      // Convert form data to JSON
+        const formData = {
+        username: form.username.value,
+        password: form.password.value 
+      };
+  
+        // Send POST request to backend
+        fetch('http://localhost:3003/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+           if (data.token) 
+           {
+            window.location.href='http://localhost:3003/dashboard';}
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    </script>
+  </body>
+  </html>
